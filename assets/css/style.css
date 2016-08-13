@@ -1,3 +1,130 @@
+body {
+	padding: 10px;
+}
+
+@font-face {
+	font-family: 'Pixel';
+	src: url('../pixelmix.ttf');
+}
+
+img {
+	image-rendering: pixelated;
+	image-rendering: -moz-crisp-edges;
+}
+
+.row {
+	text-align: center;
+}
+
 .character {
 	display: inline;
+}
+
+#character-portraits {
+	min-height: 106px;
+}
+
+/* ---------------------------------------------------------------------------------
+ * Arena Text + Images
+ * --------------------------------------------------------------------------------- */
+
+.arena {
+	position: relative;
+	height: 320px;
+	width: 480px;
+	background: url('../images/battle/background.gif') no-repeat;
+	background-size: cover;
+	margin: 0 auto;
+}
+
+.arena-text {
+    font-family: Pixel;
+	z-index: 3;
+	color: #fff;
+    font-size: 18px;
+    text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
+}
+
+#hero-name {
+    position: absolute;
+    top: 20px;
+    left: 374px;
+    width: 108px;
+    text-align: center;
+}
+
+#hero-stats {
+    position: absolute;
+    font-size: 15px;
+    top: 225px;
+    left: 400px;
+    width: 79px;
+    text-align: right;
+}
+
+#hero-hp {
+    position: absolute;
+    top: 286px;
+    left: 245px;
+    width: 230px;
+    text-align: center;
+}
+
+#enemy-name {
+    position: absolute;
+    top: 20px;
+    left: 2px;
+    width: 108px;
+    text-align: center;
+}
+
+#enemy-stats {
+    position: absolute;
+    font-size: 15px;
+    top: 225px;
+    left: 0;
+    width: 79px;
+    text-align: right;
+}
+
+#enemy-hp {
+    position: absolute;
+    top: 286px;
+    left: 5px;
+    width: 230px;
+    text-align: center;
+}
+
+#hero {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	height: 320px;
+	width: 480px;
+}
+
+#enemy {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 320px;
+	width: 480px;
+	z-index: 1;
+}
+
+/* ---------------------------------------------------------------------------------
+ * Change z-index of attacker/defender
+ * --------------------------------------------------------------------------------- */
+
+.attacker {
+	z-index: 2!important;
+}
+
+.defender {
+	z-index: 1!important;
+}
+
+.btn {
+	margin: 5px;
 }
