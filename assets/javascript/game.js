@@ -2,39 +2,39 @@
 // Character Object & Statistics
 // ---------------------------------------------------------------------------------
 
-function characterStats(name, hp, ap, apConstant ) {
+function characterStats(name, hp, ap, apConstant) {
 	this.name = name;				//Name
 	this.hp = hp;					//Health Points
-	this.ap = ap;					//Initial Attack Points (will be updated every round for hero)
+	this.ap = ap;					//Attack Points [initial] (will be updated every round for hero)
 	this.apConstant = apConstant;	//Attack Point Constant (the number that AP will be increased by every round)
 }
 
 var eliwood = new characterStats(
 	'Eliwood',
-	'130',
-	'10',
-	'10'
+	'100',
+	'32',
+	'32'
 );
 
 var lyn = new characterStats(
 	'Lyn',
-	'80',
-	'18',
-	'18'
+	'120',
+	'28',
+	'28'
 );
 
 var hector = new characterStats(
 	'Hector',
-	'100',
-	'15',
-	'15'
+	'140',
+	'30',
+	'30'
 );
 
 var marcus = new characterStats(
 	'Marcus',
-	'120',
-	'12',
-	'12'
+	'160',
+	'26',
+	'26'
 );
 
 
@@ -72,7 +72,7 @@ function pickCharacters() {
 			hero = $(this).attr('value');
 			console.log("Hero: " + window[hero].name);
 
-			//Character image fades out and is removed
+			//Character portrait fades out and is removed after .5 seconds
 			$('.character .'+hero).attr('class','animated fadeOut character ' + hero);
 			setTimeout(function() {
 				$('.character .'+hero).remove();
@@ -105,7 +105,7 @@ function pickCharacters() {
 			enemy = $(this).attr('value');
 			console.log("Enemy: " + window[enemy].name);
 
-			//Character image fades out and is removed
+			//Character portrait fades out and is removed after .5 seconds
 			$('.character .' + enemy).attr('class','animated fadeOut character ' + enemy);
 			setTimeout(function() {
 				$('.character .' + enemy).remove();
@@ -131,13 +131,13 @@ function pickCharacters() {
 	});
 }
 
-//Increase Hhro AP every round and update display
+//Increase Hero AP every round and update display
 function increaseHeroAP() {
 	window[hero].ap = parseInt(window[hero].ap) + parseInt(window[hero].apConstant);
 	$('#hero-ap').html(window[hero].ap);
 	$('#hero-ap').attr('class','animated rubberBand');
 
-	//Reset #hero-ap animation classes after 1 second
+	//Reset herp HP animation classes after 1 second
 	setTimeout(function() {
 		$('#hero-ap').attr('class','');
 	},1000);
@@ -165,14 +165,14 @@ function attackTimeout(attacker) {
 			return 4000;
 		}
 	}
-	//Else return 1 second
+	//Else return .25 seconds
 	else {
-		return 500;
+		return 250;
 	}
 }
 
 //End battle function: If hero is defeated, end game. If enemy is defeated, pick another enemy
-//unless every is defeated. Parameter must be passed as string.
+//unless everyone is defeated. Parameter must be passed as string.
 function endBattle() {
 	//If hero is defeated
 	if (window[hero].hp <= 0) {
@@ -181,7 +181,7 @@ function endBattle() {
 		$('#hero-name, #hero-stats, #hero-hp').attr('class','animated fadeOut');
 
 		setTimeout(function() {
-			alert("You lose!");
+			$('#message').html('<h2 class="red">You Lose!</h2>');
 			$('.arena-area').append('<button type="button" id="reset" class="btn btn-primary" onclick="location.reload()">Play Again?</button>');
 		},1000);
 	}
@@ -203,7 +203,7 @@ function endBattle() {
 			setTimeout(function () {
 				//If everyone is defeated
 				if (characters.length === 0) {
-					alert('You win!');
+					$('#message').html('<h2 class="green">You Win!</h2>');
 					$('.arena-area').append('<button type="button" id="reset" class="btn btn-primary" onclick="location.reload()">Play Again?</button>');
 				}
 
@@ -219,7 +219,7 @@ function endBattle() {
 }
 
 function attack() {
-	$('.arena-area').append('<br><input type="checkbox" id="hide-animation" name="hide-animation"> <label for="hide-animation">Check to hide animation</label>');
+	$('.arena-area').append('<br><input type="checkbox" id="hide-animation" name="hide-animation" checked> <label for="hide-animation">Hide attack animations</label>');
 	$('.arena-area').append('<br><button type="button" id="attack" class="btn btn-danger">Attack</button>');
 	console.log("Attack button initialized");
 

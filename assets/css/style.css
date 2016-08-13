@@ -37,6 +37,14 @@ h2 {
 	padding: 5px 0;
 }
 
+.red {
+	color: red;
+}
+
+.green {
+	color: green;
+}
+
 .section {
 	background: rgba(68,156,183,0.75);
 	margin: 10px;
