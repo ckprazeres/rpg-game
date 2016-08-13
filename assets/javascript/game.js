@@ -182,7 +182,7 @@ function endBattle() {
 
 		setTimeout(function() {
 			alert("You lose!");
-			$('.arena-area').append('<button type="button" id="reset" class="btn btn-info" onclick="location.reload()">Play Again?</button>');
+			$('.arena-area').append('<button type="button" id="reset" class="btn btn-primary" onclick="location.reload()">Play Again?</button>');
 		},1000);
 	}
 
@@ -204,7 +204,7 @@ function endBattle() {
 				//If everyone is defeated
 				if (characters.length === 0) {
 					alert('You win!');
-					$('.arena-area').append('<button type="button" id="reset" class="btn btn-info" onclick="location.reload()">Play Again?</button>');
+					$('.arena-area').append('<button type="button" id="reset" class="btn btn-primary" onclick="location.reload()">Play Again?</button>');
 				}
 
 				//Reset enemy and choose a new enemy
