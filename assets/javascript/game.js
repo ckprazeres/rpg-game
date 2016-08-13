@@ -5,36 +5,36 @@
 function characterStats(name, hp, ap, apConstant ) {
 	this.name = name;				//Name
 	this.hp = hp;					//Health Points
-	this.ap = ap;					//Initial Attack Points (will be updated every round)
+	this.ap = ap;					//Initial Attack Points (will be updated every round for hero)
 	this.apConstant = apConstant;	//Attack Point Constant (the number that AP will be increased by every round)
 }
 
 var eliwood = new characterStats(
 	'Eliwood',
-	'30',
-	'7',
-	'7'
-);
-
-var lyn = new characterStats(
-	'Lyn',
-	'28',
-	'8',
-	'8'
-);
-
-var hector = new characterStats(
-	'Hector',
-	'34',
+	'130',
 	'10',
 	'10'
 );
 
+var lyn = new characterStats(
+	'Lyn',
+	'80',
+	'18',
+	'18'
+);
+
+var hector = new characterStats(
+	'Hector',
+	'100',
+	'15',
+	'15'
+);
+
 var marcus = new characterStats(
 	'Marcus',
-	'40',
-	'9',
-	'9'
+	'120',
+	'12',
+	'12'
 );
 
 
@@ -52,7 +52,7 @@ var characters = ['eliwood', 'lyn', 'hector', 'marcus'];
 
 //Function to display all characters
 function displayCharacters() {
-	$('#message').html('Pick Your Character');
+	$('#message').html('<h2>Pick Your Character</h2>');
 
 	for (var i = 0; i < characters.length; i++) {
 		var chara = characters[i];
@@ -79,10 +79,10 @@ function pickCharacters() {
 			},500);
 
 			//Update message
-			$('#message').html('Pick Your Enemy');
+			$('#message').html('<h2>Pick Your Enemy</h2>');
 
 			//Add hero and hero stats to arena
-			$('.arena').append('<img id="hero" src="assets/images/battle/' + hero + '.gif">');
+			$('#arena').append('<img id="hero" src="assets/images/battle/' + hero + '.gif">');
 			$('#hero').attr('class','animated fadeInRight');
 			$('#hero-name').html(window[hero].name);
 			$('#hero-stats').html('100<br><div id="hero-ap">' + window[hero].ap + '</div>0');
@@ -112,7 +112,7 @@ function pickCharacters() {
 			},500);
 
 			//Add enemy and enemy stats to arena
-			$('.arena').append('<img id="enemy" src="assets/images/battle/enemy/' + enemy + '.gif">');
+			$('#arena').append('<img id="enemy" src="assets/images/battle/enemy/' + enemy + '.gif">');
 			$('#enemy').attr('class','animated fadeInLeft');
 			$('#enemy-name').html(window[enemy].name);
 			$('#enemy-stats').html('100<br>' + window[enemy].ap + '<br>0');
@@ -150,71 +150,77 @@ function decreaseHP(attacker,defender) {
 
 //Time delays for characters
 function attackTimeout(attacker) {
-	if (attacker == "eliwood") {
-		return 3000;
+	//If 'hide animation' is not checked, return times based on animation gifs
+	if ($('#hide-animation').prop('checked') === false) {
+		if (attacker == "eliwood") {
+			return 3000;
+		}
+		else if (attacker == "lyn") {
+			return 3800;
+		}
+		else if (attacker == "hector") {
+			return 6000;
+		}
+		else if (attacker == "marcus") {
+			return 4000;
+		}
 	}
-	else if (attacker == "lyn") {
-		return 3800;
-	}
-	else if (attacker == "hector") {
-		return 6000;
-	}
-	else if (attacker == "marcus") {
-		return 4000;
+	//Else return 1 second
+	else {
+		return 500;
 	}
 }
 
-//End battle if defender HP is 0. If hero is defeated, end game. If enemy is defeated, pick another enemy. Parameter must be passed as string.
-function endBattle(defender) {
-	//defender fades out after 1.5 seconds
-	setTimeout(function() {
+//End battle function: If hero is defeated, end game. If enemy is defeated, pick another enemy
+//unless every is defeated. Parameter must be passed as string.
+function endBattle() {
+	//If hero is defeated
+	if (window[hero].hp <= 0) {
+		//Fade out hero + stats
+		$('#hero').attr('class','animated fadeOutRight');
+		$('#hero-name, #hero-stats, #hero-hp').attr('class','animated fadeOut');
 
-		//If defender is the hero, fade out from the right
-		if(defender === 'hero') {
-			$('#' + defender).attr('class','animated fadeOutRight');
-		}
-		//Else fade out from the left
-		else {
-			$('#' + defender).attr('class','animated fadeOutLeft');
-		}
-		//Fade out defender stats
-		$('#' + defender + '-name, #' + defender + '-stats, #' + defender + '-hp').attr('class','animated fadeOut');
-
-		//Remove defender image and reset defender stats animation classes after 1 second
 		setTimeout(function() {
-			$('#' + defender + '').remove();
-			$('#' + defender + '-name, #' + defender + '-stats, #' + defender + '-hp').attr('class','');
-			$('#' + defender + '-name, #' + defender + '-stats, #' + defender + '-hp').html('');
+			alert("You lose!");
+			$('.arena-area').append('<button type="button" id="reset" class="btn btn-info" onclick="location.reload()">Play Again?</button>');
+		},1000);
+	}
+
+	//If enemy is defeated
+	else if (window[enemy].hp <= 0) {
+
+		//Fade out enemy
+		$('#enemy').attr('class','animated fadeOutLeft');
+		$('#enemy-name, #enemy-stats, #enemy-hp').attr('class','animated fadeOut');
+
+		//Remove enemy image and reset enemy stats animation classes after 1 second
+		setTimeout(function() {
+			$('#enemy').remove();
+			$('#enemy-name, #enemy-stats, #enemy-hp').attr('class','');
+			$('#enemy-name, #enemy-stats, #enemy-hp').html('');
 
 			//Increase hero AP after .5 seconds
 			setTimeout(function () {
-				//If hero is defeated
-				if (window[hero].hp <= 0) {
-					alert('You lose!');
-					$('.centered').append('<button type="button" id="reset" class="btn btn-info" onclick="location.reload()">Play Again?</button>');
-				}
-
 				//If everyone is defeated
-				else if(characters.length == 0) {
+				if (characters.length === 0) {
 					alert('You win!');
-					$('.centered').append('<button type="button" id="reset" class="btn btn-info" onclick="location.reload()">Play Again?</button>');
+					$('.arena-area').append('<button type="button" id="reset" class="btn btn-info" onclick="location.reload()">Play Again?</button>');
 				}
 
 				//Reset enemy and choose a new enemy
 				else {
-					increaseHeroAP();
 					enemy = "";
 					pickCharacters();
 				}
 			},500);
 
 		},1000);
-
-	},1500);
+	}
 }
 
 function attack() {
-	$('.centered').append('<br><button type="button" id="attack" class="btn btn-danger">Attack</button>');
+	$('.arena-area').append('<br><input type="checkbox" id="hide-animation" name="hide-animation"> <label for="hide-animation">Check to hide animation</label>');
+	$('.arena-area').append('<br><button type="button" id="attack" class="btn btn-danger">Attack</button>');
 	console.log("Attack button initialized");
 
 	//When Attack button is clicked
@@ -227,19 +233,24 @@ function attack() {
 
 		//Otherwise run attack animations
 		else {
-			//Hero attacks
-			$('#hero').attr('src','assets/images/battle/' + hero + '-attack.gif');
-			$('#hero').attr('class','attacker');
-			$('#enemy').attr('class','defender');
+			//If 'hide animation' is not checked, run animation gifs
+			if ($('#hide-animation').prop('checked') === false) {
+				$('#hero').attr('src','assets/images/battle/' + hero + '-attack.gif');
+				$('#hero').attr('class','attacker');
+				$('#enemy').attr('class','defender');
+			}
 
 			//Decrease enemy HP
 			decreaseHP(hero,enemy);
 
 			//Enemy attacks after hero finishes attacking
 			setTimeout(function() {
-				$('#enemy').attr('src','assets/images/battle/enemy/' + enemy + '-attack.gif');
-				$('#hero').attr('class','defender');
-				$('#enemy').attr('class','attacker');
+				//If 'hide animation' is not checked, run animation gifs
+				if ($('#hide-animation').prop('checked') === false) {
+					$('#enemy').attr('src','assets/images/battle/enemy/' + enemy + '-attack.gif');
+					$('#hero').attr('class','defender');
+					$('#enemy').attr('class','attacker');
+				}
 
 				//Decrease hero HP
 				decreaseHP(enemy,hero);
@@ -262,20 +273,15 @@ function attack() {
 					}
 					$('#enemy-hp').attr('class','animated bounce');
 
-					//Rest HP animation classes and increase hero HP after 1 second
+					//Rest HP animation classes and increase hero HP after .5 seconds
 					setTimeout(function() {
 						$('#hero-hp').attr('class','');
 						$('#enemy-hp').attr('class','');
 						increaseHeroAP();
 
-						//If enemy is defeated, end battle
-						if (window[enemy].hp <= 0) {
-							endBattle('enemy');
-						}
-
-						//If hero is defeated, end battle
-						else if (window[hero].hp <= 0) {
-							endBattle('hero');
+						//If either enemy or hero is defeated, end battle
+						if (window[enemy].hp <= 0 || window[hero].hp <= 0) {
+							endBattle();
 						}
 					},1000);
 
