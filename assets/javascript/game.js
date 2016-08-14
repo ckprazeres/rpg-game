@@ -11,30 +11,30 @@ function characterStats(name, hp, ap, apConstant) {
 
 var eliwood = new characterStats(
 	'Eliwood',
-	'100',
-	'32',
-	'32'
+	'47',
+	'6',
+	'6'
 );
 
 var lyn = new characterStats(
 	'Lyn',
-	'120',
-	'28',
-	'28'
+	'45',
+	'7',
+	'7'
 );
 
 var hector = new characterStats(
 	'Hector',
-	'140',
-	'30',
-	'30'
+	'42',
+	'7.5',
+	'7.5'
 );
 
 var marcus = new characterStats(
 	'Marcus',
-	'160',
-	'26',
-	'26'
+	'43',
+	'6.5',
+	'6.5'
 );
 
 
