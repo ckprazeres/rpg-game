@@ -22,3 +22,6 @@ The player wins once all enemies are defeated.
 
 # Credits
 * Srites and images &copy; Intelligent Systems
+
+# License
+None
