@@ -21,7 +21,7 @@ The player wins once all enemies are defeated.
 * Google Fonts
 
 # Credits
-* Srites and images &copy; Intelligent Systems
+* Sprites and images &copy; Intelligent Systems
 
 # License
 None
